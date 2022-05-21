@@ -34,9 +34,11 @@ import CreateCard from  '@/components/CreateCard.vue';
 import { ref, reactive } from '@vue/reactivity';
 
 let createShow = ref(false);
+let openShow = ref(false);
 
 const cancel = () => {
   createShow.value = false;
+  openShow.value = false;
 }
 
 const WIP = reactive({
@@ -73,7 +75,7 @@ const handleClickCard = (mode) => {
       createShow.value = true;
       break;
     case 'open':
-      console.log(2);
+      openShow.value = true;
       break;
     case 'update':
       WIP.show = true;

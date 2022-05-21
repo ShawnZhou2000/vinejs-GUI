@@ -55,7 +55,7 @@ function command(item) {
   axios
     .get(`${baseUrl}/commands/${item.name}`, {
       params: {
-        path: "../../vinejs-blog-core",
+        path: sessionStorage.getItem('workspace') || "../../vinejs-blog-core",
       },
     })
     .then((res) => {

@@ -9,6 +9,9 @@ export default defineConfig({
       '@': resolve(__dirname, 'src'),
     },
   },
+  build: {
+    outDir: "guider",
+  },
   server: {
     open: true,
   },
