@@ -66,14 +66,11 @@
 import ExtSideItem from "@/components/ExtSideItem.vue";
 import ExtCard from "@/components/ExtCard.vue";
 import { ref } from 'vue';
+import axios from 'axios'
 
 let active = ref(0);
 
-const changeActive = (id) => {
-  active.value = id;
-}
-
-const searchAns = [
+let searchAns = ref([
   {
     cover: 'https://shawnzhou-image.oss-cn-beijing.aliyuncs.com/blog-image/QQ%E6%88%AA%E5%9B%BE20220502223450.png',
     showCover: true,
@@ -102,7 +99,21 @@ const searchAns = [
     publishTime: '2022/05/02',
     downloadCount: 233
   }
-]
+])
+
+const changeActive = (id) => {
+  active.value = id;
+  // 拿到数据了, 得转下响应式
+  axios.get(`http://localhost:12321/searchAns?id=${id}`).then(
+    (res) => {
+      searchAns.value = res.data.data
+    },
+    (err) => {
+      console.log(err);
+    }
+  )
+}
+
 
 const extList = [
   {
