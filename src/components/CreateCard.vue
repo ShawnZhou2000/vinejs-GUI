@@ -18,18 +18,18 @@
                     class="text-left w-full mx-auto px-4 sm:px-6 lg:py-8 lg:px-8 z-20"
                   >
                     <h2
-                      class="text-3xl font-extrabold text-black dark:text-white sm:text-4xl"
+                      class="font-extrabold text-black dark:text-white"
                     >
                       <div class="create-unit">
-                        <span class="block"> 工作区 </span>
-
+                        <span class="block text-3xl"> 工作区 </span>
+                        <SelectWorkSpace></SelectWorkSpace>
                       </div>
                       <div class="create-unit">
-                        <span class="block"> 主核心 </span>
+                        <span class="block text-3xl"> 主核心 </span>
                         <SelectUnit :data="coreList"></SelectUnit>
                       </div>
                       <div class="create-unit">
-                        <span class="block"> 部署器 </span>
+                        <span class="block text-3xl"> 部署器 </span>
                         <SelectUnit :data="deployerList"></SelectUnit>
                       </div>
                     </h2>
@@ -63,11 +63,13 @@
 <script lang="ts">
 import { defineComponent } from "vue";
 import SelectUnit from "./SelectUnit.vue";
+import SelectWorkSpace from "./SelectWorkSpace.vue";
 
 export default defineComponent({
   components: {
     SelectUnit,
-  },
+    SelectWorkSpace
+},
   setup() {
     const coreList = [
       {
