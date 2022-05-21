@@ -18,15 +18,25 @@
         :key="index" :title="item.title"
         :description="item.description"
         :icon="item.icon" :mode="item.mode"
-        @clickCard="handleClickCard"
+        @clickCard="handleClickCard(item.mode)"
         ></HomeSelect>
       </div>
+      <Notice :show="WIP.show" :title="WIP.title" :info="WIP.info"></Notice>
     </div>
   </div>
 </template>
 
 <script setup>
 import HomeSelect from '@/components/HomeSelect.vue';
+import Notice from  '@/components/Notice.vue';
+import { reactive } from '@vue/reactivity';
+
+const WIP = reactive({
+  title: 'Still Work in Progress',
+  info: '此功能还在开发中',
+  show: false,
+})
+
 const indexList = [
   {
     title: '创建新项目',
@@ -52,10 +62,16 @@ const indexList = [
 const handleClickCard = (mode) => {
   switch (mode) {
     case 'create':
+      console.log(1);
       break;
     case 'open':
+      console.log(2);
       break;
     case 'update':
+      WIP.show = true;
+      setTimeout(() => {
+        WIP.show = false;
+      }, 1000);
       break;
   }
 }
