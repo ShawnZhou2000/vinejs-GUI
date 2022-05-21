@@ -7,7 +7,10 @@
           {{ $route.meta.title }}
         </h1>
         <h1 class="text-md font-normal leading-tight text-gray-900 flex-1 text-right flex flex-col">
-          <div>工作区：{{ workSpace }}</div>
+          <div>
+            工作区：{{ workSpace }} 
+            <span class="logout" v-if="workSpace !== '未指定'" @click="logout">退出</span>
+          </div>
           <div>当前时间：{{ timer }}</div>
         </h1>
       </div>
@@ -30,7 +33,11 @@
   setInterval(() => {
     timer.value = dayjs().format('YYYY-MM-DD HH:mm:ss');
   }, 1000);
-  let workSpace = sessionStorage.getItem('workSpace') || 'fakePath';
+  let workSpace = sessionStorage.getItem('workSpace') || '未指定';
+  const logout = () => {
+    sessionStorage.removeItem('workSpace');
+    location.reload();
+  }
 </script>
 
 
@@ -41,5 +48,13 @@
     flex-direction: column;
     flex-wrap: nowrap;
     justify-content: space-between;
+  }
+  .logout {
+    color: #4B5563;
+    font-size: 15px;
+    &:hover {
+      text-decoration: underline;
+      cursor: pointer;
+    }
   }
 </style>
