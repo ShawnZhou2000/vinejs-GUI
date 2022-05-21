@@ -22,6 +22,7 @@
         ></HomeSelect>
       </div>
       <Notice :show="WIP.show" :title="WIP.title" :info="WIP.info"></Notice>
+      <CreateCard></CreateCard>
     </div>
   </div>
 </template>
@@ -29,6 +30,7 @@
 <script setup>
 import HomeSelect from '@/components/HomeSelect.vue';
 import Notice from  '@/components/Notice.vue';
+import CreateCard from  '@/components/CreateCard.vue';
 import { reactive } from '@vue/reactivity';
 
 const WIP = reactive({
