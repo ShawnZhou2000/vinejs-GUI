@@ -12,7 +12,7 @@
             class="inline-block relative overflow-hidden transform transition-all card-main"
           >
             <div>
-              <div class="rounded-lg p-8 bg-white shadow">
+              <div class="rounded-lg p-8 bg-white shadow my-12">
                 <div class="bg-white dark:bg-gray-800">
                   <div
                     class="text-left w-full mx-auto px-4 sm:px-6 lg:py-8 lg:px-8 z-20"
@@ -194,7 +194,7 @@ export default defineComponent({
 }
 
 .card-main {
-  width: 50%;
+  width: 80%;
 }
 
 .btn-panel {

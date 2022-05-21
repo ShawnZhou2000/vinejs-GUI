@@ -1,7 +1,7 @@
 <template>
   <div class="select-unit">
     <div class="shadow-lg rounded-2xl w-64 h-48 p-4 bg-white relative overflow-hidden mr-8"
-      v-for="(item, index) in data" :key="index" @click="selectTarget(item.name)"
+      v-for="(item, index) in data" :key="index" @click="selectTarget(item.name, item.available)"
       :class="{ 
         'unit-active': item.available,
         'unit-disabled': !item.available,
@@ -31,8 +31,9 @@ export default defineComponent({
   setup(props, ctx) {
     const data = toRef(props, 'data');
     const select = toRef(props, 'select');
-    const selectTarget = (name: string) => {
-      ctx.emit('changeSelect', name);
+    const selectTarget = (name: string, check: boolean) => {
+      if (check)
+        ctx.emit('changeSelect', name);
     }
     return {
       data,
