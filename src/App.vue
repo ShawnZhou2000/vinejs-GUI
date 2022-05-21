@@ -30,7 +30,7 @@
   setInterval(() => {
     timer.value = dayjs().format('YYYY-MM-DD HH:mm:ss');
   }, 1000);
-  let workSpace = 'fakePath';
+  let workSpace = sessionStorage.getItem('workSpace') || 'fakePath';
 </script>
 
 

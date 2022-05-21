@@ -166,7 +166,9 @@ export default defineComponent({
       })
       .then((res) => {
         console.log(res.data);
+        sessionStorage.setItem('workSpace', res.data.workspace);
         cancel();
+        location.reload();
       });
     }
 
