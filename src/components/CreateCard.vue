@@ -22,7 +22,7 @@
                     >
                       <div class="create-unit">
                         <span class="block text-3xl"> 创建工作区： </span>
-                        <SelectWorkSpace></SelectWorkSpace>
+                        <SelectWorkSpace @changeWorkSpace="changeWorkSpace" @changeProjectName="changeProjectName"></SelectWorkSpace>
                       </div>
                       <div class="create-unit">
                         <span class="block text-3xl"> 选择主核心： {{ coreSelect }} </span>
@@ -38,6 +38,7 @@
                     >
                       <button
                         type="button"
+                        @click="create"
                         class="py-2 px-4 bg-green-600 hover:bg-green-700 focus:ring-green-500 focus:ring-offset-green-200 text-white transition ease-in duration-200 text-center text-base font-normal shadow-md focus:outline-none focus:ring-2 focus:ring-offset-2 rounded-lg"
                       >
                         新建
@@ -65,6 +66,7 @@
 import { defineComponent, ref, Ref, toRef } from "vue";
 import SelectUnit from "./SelectUnit.vue";
 import SelectWorkSpace from "./SelectWorkSpace.vue";
+import axios from "axios";
 
 export default defineComponent({
   props: ['show'],
@@ -73,6 +75,17 @@ export default defineComponent({
     SelectWorkSpace
   },
   setup(props, context) {
+    let workspace = ref('');
+    let projectName = ref('');
+
+    const changeWorkSpace = (val) => {
+      workspace.value = val;
+    }
+
+    const changeProjectName = (val) => {
+      projectName.value = val;
+    }
+
     let show: Ref<boolean> = toRef(props, 'show');
     let coreSelect: Ref<string> = ref('');
     const changeCoreSelect = (val) => {
@@ -139,12 +152,32 @@ export default defineComponent({
       }
     ];
 
+    const create = () => {
+      let json = {
+        workspace: workspace.value,
+        projectName: projectName.value,
+        core: coreSelect.value,
+        deployer: deployerSelect.value
+      }
+      console.log(json);
+      const baseUrl = "http://localhost:12321";
+      axios.post(`${baseUrl}/commands/create`, {
+        data: json
+      })
+      .then((res) => {
+        console.log(res.data);
+        cancel();
+      });
+    }
+
     return {
       coreList,
       deployerList,
       show, cancel,
       changeCoreSelect, coreSelect,
-      changeDeployerSelect, deployerSelect
+      changeDeployerSelect, deployerSelect,
+      changeWorkSpace, changeProjectName,
+      create
     }
   },
 });
