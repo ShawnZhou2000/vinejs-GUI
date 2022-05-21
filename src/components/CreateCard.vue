@@ -1,5 +1,5 @@
 <template>
-  <div class="create-card">
+  <div class="create-card" v-if="show">
     <div class="relative">
       <div class="h-screen w-full z-10 inset-0 overflow-y-auto">
         <div
@@ -21,16 +21,16 @@
                       class="font-extrabold text-black dark:text-white"
                     >
                       <div class="create-unit">
-                        <span class="block text-3xl"> 工作区 </span>
+                        <span class="block text-3xl"> 创建工作区： </span>
                         <SelectWorkSpace></SelectWorkSpace>
                       </div>
                       <div class="create-unit">
-                        <span class="block text-3xl"> 主核心 </span>
-                        <SelectUnit :data="coreList"></SelectUnit>
+                        <span class="block text-3xl"> 选择主核心： {{ coreSelect }} </span>
+                        <SelectUnit :data="coreList" :select="coreSelect" @changeSelect="changeCoreSelect"></SelectUnit>
                       </div>
                       <div class="create-unit">
-                        <span class="block text-3xl"> 部署器 </span>
-                        <SelectUnit :data="deployerList"></SelectUnit>
+                        <span class="block text-3xl"> 选择部署器： {{ deployerSelect }} </span>
+                        <SelectUnit :data="deployerList" :select="deployerSelect" @changeSelect="changeDeployerSelect"></SelectUnit>
                       </div>
                     </h2>
                     <div
@@ -44,6 +44,7 @@
                       </button>
                       <button
                         type="button"
+                        @click="cancel"
                         class="py-2 px-4 bg-white hover:bg-gray-100 focus:ring-green-500 focus:ring-offset-green-200 text-green-500 transition ease-in duration-200 text-center text-base font-normal shadow-md focus:outline-none focus:ring-2 focus:ring-offset-2 rounded-lg"
                       >
                         取消
@@ -61,16 +62,29 @@
 </template>
 
 <script lang="ts">
-import { defineComponent } from "vue";
+import { defineComponent, ref, Ref, toRef } from "vue";
 import SelectUnit from "./SelectUnit.vue";
 import SelectWorkSpace from "./SelectWorkSpace.vue";
 
 export default defineComponent({
+  props: ['show'],
   components: {
     SelectUnit,
     SelectWorkSpace
-},
-  setup() {
+  },
+  setup(props, context) {
+    let show: Ref<boolean> = toRef(props, 'show');
+    let coreSelect: Ref<string> = ref('');
+    const changeCoreSelect = (val) => {
+      coreSelect.value = val;
+    }
+    let deployerSelect: Ref<string> = ref('');
+    const changeDeployerSelect = (val) => {
+      deployerSelect.value = val;
+    }
+    const cancel = () => {
+      context.emit('cancel');
+    }
     const coreList = [
       {
         name: 'Blog Core',
@@ -127,7 +141,10 @@ export default defineComponent({
 
     return {
       coreList,
-      deployerList
+      deployerList,
+      show, cancel,
+      changeCoreSelect, coreSelect,
+      changeDeployerSelect, deployerSelect
     }
   },
 });

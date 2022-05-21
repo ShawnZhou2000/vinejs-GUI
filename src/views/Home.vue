@@ -22,7 +22,7 @@
         ></HomeSelect>
       </div>
       <Notice :show="WIP.show" :title="WIP.title" :info="WIP.info"></Notice>
-      <CreateCard></CreateCard>
+      <CreateCard :show="createShow" @cancel="cancel"></CreateCard>
     </div>
   </div>
 </template>
@@ -31,7 +31,13 @@
 import HomeSelect from '@/components/HomeSelect.vue';
 import Notice from  '@/components/Notice.vue';
 import CreateCard from  '@/components/CreateCard.vue';
-import { reactive } from '@vue/reactivity';
+import { ref, reactive } from '@vue/reactivity';
+
+let createShow = ref(false);
+
+const cancel = () => {
+  createShow.value = false;
+}
 
 const WIP = reactive({
   title: 'Still Work in Progress',
@@ -64,7 +70,7 @@ const indexList = [
 const handleClickCard = (mode) => {
   switch (mode) {
     case 'create':
-      console.log(1);
+      createShow.value = true;
       break;
     case 'open':
       console.log(2);

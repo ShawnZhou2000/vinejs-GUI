@@ -1,7 +1,12 @@
 <template>
   <div class="select-unit">
     <div class="shadow-lg rounded-2xl w-64 h-48 p-4 bg-white relative overflow-hidden mr-8"
-      :class="{ 'unit-disabled': !item.available }" v-for="(item, index) in data" :key="index">
+      v-for="(item, index) in data" :key="index" @click="selectTarget(item.name)"
+      :class="{ 
+        'unit-active': item.available,
+        'unit-disabled': !item.available,
+        'unit-select': select === item.name
+      }">
       <img
         src="/favicon.png"
         class="absolute mb-4 card-img"
@@ -19,14 +24,20 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, toRef, Ref } from "vue";
+import { defineComponent, ref, toRef } from "vue";
 
 export default defineComponent({
-  props: ['data'],
-  setup(props) {
+  props: ['data', 'select'],
+  setup(props, ctx) {
     const data = toRef(props, 'data');
+    const select = toRef(props, 'select');
+    const selectTarget = (name: string) => {
+      ctx.emit('changeSelect', name);
+    }
     return {
-      data
+      data,
+      selectTarget,
+      select
     }
   },
 });
@@ -54,5 +65,18 @@ export default defineComponent({
     img {
       filter: grayscale(1);
     }
+  }
+
+  .unit-select {
+    border: 2px solid #10B981;
+  }
+
+  .unit-active {
+    border: 2px solid transparent;
+    transition: all 0.1s ease;
+  }
+  .unit-active:hover {
+    cursor: pointer;
+    border: 2px solid #10B981;
   }
 </style>
